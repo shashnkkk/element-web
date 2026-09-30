@@ -171,7 +171,8 @@ export function TextualBodyFactory(props: Readonly<IBodyProps>): JSX.Element {
                 type: "image",
                 image: preview.image.imageFull,
                 imageAlt: preview.title,
-                imageSize: "banner",
+                // Tall enough to show what the image is, matching the height used before the shared previews.
+                imageSize: "mediumbanner",
                 imageOnClick: () => {
                     Modal.createDialog(
                         ImageView,

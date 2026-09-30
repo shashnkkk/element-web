@@ -181,6 +181,8 @@ function getImageClass(size: ImageSize): string {
             return styles.fullImage;
         case "banner":
             return styles.bannerImage;
+        case "mediumbanner":
+            return styles.mediumBannerImage;
         case "tallbanner":
             return styles.tallBannerImage;
     }
@@ -192,6 +194,8 @@ function getVideoClass(size: ImageSize): string {
             return styles.fullVideo;
         case "banner":
             return styles.bannerVideo;
+        case "mediumbanner":
+            return styles.mediumBannerVideo;
         case "tallbanner":
             return styles.tallBannerVideo;
     }

@@ -25,9 +25,10 @@ export type MediaPreviewGroupEntryTextContent = {
 /**
  * - full: show full image contained in tile
  * - banner: show image covering tile, height 100px
+ * - mediumbanner: show image covering tile, height 200px
  * - tallbanner: show image covering tile, height 300px
  */
-export type ImageSize = "full" | "banner" | "tallbanner";
+export type ImageSize = "full" | "banner" | "mediumbanner" | "tallbanner";
 
 export type MediaPreviewGroupEntryImageContent = {
     type: "image";

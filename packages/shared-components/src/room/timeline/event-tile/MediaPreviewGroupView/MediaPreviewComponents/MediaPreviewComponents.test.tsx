@@ -11,6 +11,7 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { Audio, Body, Buttons, Header, Icon, Image, LeftGroup, TextContent, Video } from "./MediaPreviewComponents";
+import { type ImageSize } from "../MediaPreviewGroupView";
 import demoImage from "../../../../../../static/wideImage.png";
 import demoVideo from "../../../../../../static/videoPreviewDemo.webm?inline";
 import demoAudio from "../../../../../../static/audioDemo.ogg";
@@ -181,17 +182,20 @@ describe("MediaPreviewComponents", () => {
                 expect(container).toBeEmptyDOMElement();
             });
 
-            it("distinguishes banner and full sizes by class", async () => {
+            it("gives each size its own class", async () => {
+                const sizes: ImageSize[] = ["full", "banner", "mediumbanner", "tallbanner"];
                 const { container, rerender } = render(
-                    <Image image={demoImage} imageAlt="A wide demo image" imageSize="banner" />,
+                    <Image image={demoImage} imageAlt="A wide demo image" imageSize={sizes[0]} />,
                 );
                 await waitForImage(container);
 
-                const bannerClass = container.firstElementChild!.className;
+                const classNames = new Set<string>();
+                for (const size of sizes) {
+                    rerender(<Image image={demoImage} imageAlt="A wide demo image" imageSize={size} />);
+                    classNames.add(container.firstElementChild!.className);
+                }
 
-                rerender(<Image image={demoImage} imageAlt="A wide demo image" imageSize="full" />);
-
-                expect(container.firstElementChild!.className).not.toEqual(bannerClass);
+                expect(classNames.size).toBe(sizes.length);
             });
 
             it("wraps the image in a button when imageOnClick is given", async () => {
@@ -239,6 +243,20 @@ describe("MediaPreviewComponents", () => {
                 await user.click(screen.getByRole("button", { name: "View video" }));
 
                 expect(videoOnClick).toHaveBeenCalledTimes(1);
+            });
+
+            it("gives each size its own class", async () => {
+                const sizes: ImageSize[] = ["full", "banner", "mediumbanner", "tallbanner"];
+                const { container, rerender } = render(<Video video={demoVideo} videoSize={sizes[0]} />);
+                await waitForMedia(container, "video");
+
+                const classNames = new Set<string>();
+                for (const size of sizes) {
+                    rerender(<Video video={demoVideo} videoSize={size} />);
+                    classNames.add(container.firstElementChild!.className);
+                }
+
+                expect(classNames.size).toBe(sizes.length);
             });
         });
 
